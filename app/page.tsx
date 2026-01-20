@@ -10,6 +10,12 @@ type Task = {
   updatedAt?: string;
 };
 
+function formatIsoForUi(iso: string) {
+  // Avoid locale-dependent formatting during SSR to prevent hydration mismatches.
+  // Stored values are ISO strings like 2026-01-20T12:34:56.789Z.
+  return iso.replace("T", " ").replace("Z", " UTC");
+}
+
 function statusBadge(status: string) {
   switch (status) {
     case "done":
@@ -187,7 +193,7 @@ export default function Home() {
                       </div>
                       {task.updatedAt ? (
                         <p className="mt-1 text-xs text-slate-500">
-                          Updated {new Date(task.updatedAt).toLocaleString()}
+                          Updated {formatIsoForUi(task.updatedAt)}
                         </p>
                       ) : null}
                     </div>
