@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Task Tracker
+
+A simple Task Tracker built with Next.js App Router. Create tasks, update status, and delete items. Tasks are persisted to a local JSON file so the app works without a database.
+
+## Features
+
+- Add a task
+- Update status (`todo` → `in-progress` → `done`)
+- Delete a task
+- File-based persistence via `tasks.json`
+
+## Tech Stack
+
+- Next.js (App Router)
+- Tailwind CSS
+- Route handlers under `app/api/*`
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ recommended
+
+### Install
+
+```bash
+npm install
+```
+
+### Run (development)
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` — start dev server
+- `npm run build` — create production build
+- `npm run start` — run production server (after build)
+- `npm run lint` — lint the codebase
 
-## Learn More
+## API
 
-To learn more about Next.js, take a look at the following resources:
+All task operations are handled by `app/api/tasks/route.js`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### `GET /api/tasks`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Returns an array of tasks.
 
-## Deploy on Vercel
+### `POST /api/tasks`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Creates a new task.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Request body:
+
+```json
+{ "description": "Buy milk" }
+```
+
+### `PUT /api/tasks`
+
+Updates a task status.
+
+Request body:
+
+```json
+{ "id": 1, "status": "in-progress" }
+```
+
+### `DELETE /api/tasks`
+
+Deletes a task.
+
+Request body:
+
+```json
+{ "id": 1 }
+```
+
+## Data Storage Notes
+
+- Tasks are stored in a JSON file at the project root: `tasks.json`.
+- This approach is great for demos and local development.
+- If you deploy to a serverless platform (or multiple instances), file writes may not persist as expected. For production, replace the file storage with a database.
+
+## Project Structure (high level)
+
+```text
+app/
+	page.tsx            # UI
+	api/
+		tasks/route.js    # API handlers (GET/POST/PUT/DELETE)
+tasks.json            # File-based data store
+```
