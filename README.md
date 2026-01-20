@@ -12,8 +12,9 @@ A simple Task Tracker built with Next.js App Router. Create tasks, update status
 ## Tech Stack
 
 - Next.js (App Router)
+- TypeScript (strict)
 - Tailwind CSS
-- Route handlers under `app/api/*`
+- Route handlers under `app/api/*` (TypeScript)
 
 ## Getting Started
 
